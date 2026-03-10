@@ -3,6 +3,9 @@ title: "PA02 · Medio físico, variables ambientales, análisis espacial, correl
 author: "El Tali"
 date: "`r format(Sys.Date(), '%Y-%m-%d')`"
 output:
+  # bookdown::github_document2:
+  #   number_sections: false
+  #   fig_caption: yes
   bookdown::html_document2:
     number_sections: false
     code_folding: show
