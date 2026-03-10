@@ -1,31 +1,30 @@
 ---
-title: "PA02 · Geomorfometría, reproducibilidad, redacción, estilos de formato, figuras, tablas, citas y referencias<small><br>Geomorfología (GEO-114)<br>Universidad Autónoma de Santo Domingo (UASD)"
+title: "PA02 · Medio físico, variables ambientales, análisis espacial, correlación, regresión, manuscrito y presentación oral<small><br>Biogeografía (GEO-131)<br>Universidad Autónoma de Santo Domingo (UASD)</small>"
 author: "El Tali"
 date: "`r format(Sys.Date(), '%Y-%m-%d')`"
 output:
-  # bookdown::github_document2:
-  #   number_sections: false
-  #   fig_caption: yes
   bookdown::html_document2:
     number_sections: false
-    code_folding: hide
+    code_folding: show
     fig_caption: yes
     md_extensions: "-fancy_lists"
     toc: true
     toc_depth: 3
-editor_options: 
+editor_options:
   chunk_output_type: console
 always_allow_html: true
-bibliography: bibliografia.bib
-csl: apa-es.csl
+bibliography: references.bib
 lang: es
 ---
 
-<!-- README.md se genera a partir de README.Rmd. Por favor, edita ese archivo. -->
-
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, out.width = '100%', fig.retina = 4)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  out.width = '100%',
+  fig.retina = 4
+)
 ```
 
 ```{r, include=F}
@@ -35,65 +34,78 @@ repo_name <- sub(".git$", "", basename(repo_url))
 org_name <- basename(dirname(repo_url))
 rmd_filename <- tools::file_path_sans_ext(basename(knitr::current_input()))
 github_pages_url <- paste0("https://", org_name, ".github.io/", repo_name, "/", rmd_filename, ".html")
+tejer <- T
+```
+
+```{r, results='asis', echo=F}
+if (grepl('gfm', output_format)) {
+  cat('Versión HTML (quizá más legible), [aquí](', github_pages_url, ')\n', sep = '')
+} else if (output_format == 'latex') {
+  cat('Versión HTML (quizá más legible), [aquí](', github_pages_url, ')\n', sep = '')
+}
 ```
 
 # Fecha/hora de entrega
 
-[**VER PORTAL DE LA ASIGNATURA**](https://github.com/geomorfologia-202601)
+[**VER PORTAL DE LA ASIGNATURA**](https://github.com/biogeografia-202601)
 
+---
 
 ## Objetivos
 
 El objetivo de esta práctica es que demuestres o mejores:
 
-- tus capacidades de **realizar análisis geomorfométricos**;
-- tus capacidades de **usar RMarkdown para producir documentos científicos reproducibles**;
-- tus capacidades de **redacción científica**;
-- tus capacidades de **comunicar resultados de investigación mediante una presentación oral breve**.
+* tus capacidades de **trabajar íntegramente en R** con datos geoespaciales;
+* tus capacidades de **extraer valores de variables ambientales en puntos**;
+* tus capacidades de **analizar relaciones entre variables mediante correlación y regresión lineal simple**;
+* tus capacidades de **usar RMarkdown para producir documentos científicos reproducibles**;
+* tus capacidades de **redacción científica**;
+* tus capacidades de **comunicar resultados mediante una presentación oral breve**.
 
-Esta práctica tratará sobre **geomorfometría aplicada a un área de la República Dominicana**, intentando que el resultado final sea una **investigación reproducible y bien redactada**.
+Esta práctica tratará sobre **medio físico y variables ambientales de la República Dominicana**, usando una estrategia heurística: primero obtendrás y explorarás tus datos; luego, a partir de los patrones observados, formularás **preguntas, hipótesis y objetivos** que den sentido científico a tu manuscrito.
 
-El resultado esperado es un trabajo que cumpla con estándares básicos de comunicación científica: uso apropiado de **figuras, tablas, citas, referencias y estructura de manuscrito**, acompañado de una **presentación oral clara y sintética**.
+El resultado esperado es un trabajo que cumpla estándares básicos de comunicación científica: **análisis reproducible en R, manuscrito en PDF, figuras y tablas bien integradas, citas y referencias, y presentación oral breve**.
+
+No escribas tu manuscrito sin haber pensado bien qué historia quieres contar con tus datos. No redactes la introducción ni los métodos sin tener claro qué pregunta vas a responder, qué hipótesis vas a probar y qué objetivos vas a perseguir. En materiales y métodos, y en resultados, usa gráficos y salidas vistosas propias de un manuscrito. Nada de pegar salida de la consola, gráficos básicos de R, o mapas mudos; no, eso no se puede publicar. Debes construir un manuscrito con figuras y tablas apropiadas, y R dispone de las herramientas para hacerlo. No te conformes con lo mínimo, haz un esfuerzo por construir un manuscrito que cumpla con estándares básicos de comunicación científica.
 
 ---
 
 # Entregables
 
-Debes producir **tres productos obligatorios**:
+Debes producir **tres productos obligatorios**.
 
 ## 1. Manuscrito reproducible (PDF)
 
 ### Requisitos de formato
 
-Un manuscrito breve en formato académico generado a partir de **RMarkdown**.
+Debes entregar un manuscrito breve en formato académico generado a partir de **RMarkdown**.
 
 La entrega se realiza mediante **commit + push al repositorio personal** asignado.
 
-Puedes utilizar ...
+Para el manuscrito debes usar la plantilla basada en APA 7 que se te provee en el repositorio, con el nombre:
 
-- la plantilla `plantilla.Rmd` del repositorio, o
-- otra plantilla RMarkdown (por ejemplo de `rticles`),
+`plantilla.Rmd`
 
-... siempre que el resultado sea un **PDF generado desde RMarkdown** y que mantenga la estructura típica de un manuscrito científico.
+Esta plantilla debe producir un **PDF reproducible**.
 
 ### Estructura mínima
 
 El manuscrito debe incluir:
 
-- Título
-- Autor/a
-- Resumen y palabras clave
-- Introducción (contexto conceptual, problemas, justificación, preguntas, hipótesis, objetivos)
-- Materiales y métodos (procedimientos, técnicas, herramientas, datos utilizados)
-- Resultados (tablas, figuras)
-- Discusión (cumplimiento de objetivos rechazo o no de hipótesis, interpretación, limitaciones, perspectivas de futuro)
-- Conclusiones
-- Referencias
-- Opcional: información suplementaria.
+* Título
+* Autor/a
+* Resumen y palabras clave
+* Introducción
+* Materiales y métodos
+* Resultados
+* Discusión
+* Conclusiones
+* Referencias
+* Opcional: material suplementario
 
 Las **figuras y tablas deben tener título y referencia cruzada dentro del texto**.
 
-**Extensión sugerida:** 4–8 páginas (sin contar referencias).
+**Extensión sugerida:** 4–8 páginas, sin contar referencias.
 
 ---
 
@@ -103,118 +115,390 @@ Debes preparar una presentación breve para explicar tu trabajo.
 
 Formato recomendado:
 
-- 8–10 diapositivas
-- claridad visual
-- poco texto
+* 8–10 diapositivas
+* claridad visual
+* poco texto
+* figuras legibles
 
-Las diapositivas pueden seguir la estructura IMRaD, pero no es obligatorio. Este es un esquema tradicional:
+Puedes seguir la estructura IMRaD si eso te ayuda, aunque no es obligatorio.
 
-- Título y autor/a
-- Introducción
-- Materiales y métodos
-- Resultados
-- Discusión
-- Conclusiones  
+Un esquema posible sería:
+
+* Título y autor/a
+* Contexto y problema
+* Pregunta, hipótesis y objetivos
+* Datos y métodos
+* Resultados principales
+* Discusión
+* Conclusiones
 
 ---
 
 ## 3. Defensa oral
 
-Cada estudiante realizará una **exposición oral de 17 minutos**.
+Cada estudiante realizará una **exposición oral breve**.
 
 La defensa debe explicar al menos lo siguiente:
 
-- problema de investigación
-- metodología
-- evidencia principal
-- interpretación de resultados
-- limitaciones
-- conclusiones
+* qué patrón observaste en tus datos;
+* qué pregunta formulaste a partir de ese patrón;
+* cómo generaste los puntos y seleccionaste las variables;
+* cómo hiciste la extracción, la correlación y la regresión;
+* cuáles fueron los resultados principales;
+* cómo los interpretas;
+* qué limitaciones tiene tu análisis.
 
-El objetivo no es repetir el manuscrito completo, sino **explicar el argumento central del trabajo**. Reitero: no es obligatorio seguir la estructrua IMRaD, pero si te da confianza, puedes usarla.
+El objetivo no es leer el manuscrito, sino **explicar con claridad el argumento central del trabajo**.
 
 ---
 
 # Mandato de la práctica
 
-## Selección del área de estudio
+## Idea general
 
-Usando el **DEM del Shuttle Radar Topography Mission (SRTM)** recortado para un municipio, aplica una técnica geomorfométrica.
+En esta práctica trabajarás con variables ambientales geoespaciales de la República Dominicana. A cada estudiante se le asignará una combinación reproducible de:
 
-Los archivos se encuentran en la carpeta `data/`.
+* **10 puntos aleatorios** dentro del territorio nacional;
+* **5 variables cuantitativas** del medio físico o del clima.
 
-Debes elegir **un municipio por su número** y anunciarlo en el foro.
+Con esos datos construirás una pequeña matriz ambiental, y a partir de ella realizarás tres análisis centrales:
 
-```{r, eval=TRUE, echo=FALSE}
+1. **análisis espacial** para extraer valores de rásters en puntos;
+2. **correlación** entre variables ambientales;
+3. **regresión lineal simple** usando el par de variables más fuertemente relacionado.
+
+A diferencia de la versión original de esta práctica, aquí **no entregarás ejercicios aislados ni trabajo manual en papel**. Todo el flujo se desarrollará en **R**, y los resultados obtenidos serán la base para redactar un **manuscrito científico breve** y preparar una **presentación oral**.
+
+## Enfoque heurístico de la práctica
+
+En una investigación clásica, primero se formulan preguntas e hipótesis, y luego se buscan o producen datos para ponerlas a prueba. En esta práctica trabajaremos de forma parcialmente inversa: primero generarás y explorarás tus datos, y luego, a partir de los patrones observados, formularás una pregunta, una hipótesis y unos objetivos plausibles y coherentes con tus resultados.
+
+Este procedimiento es válido como ejercicio de aprendizaje porque te obliga a:
+
+* manipular datos espaciales en R;
+* reconocer patrones cuantitativos;
+* convertir resultados analíticos en argumentos científicos;
+* redactar un texto académico con estructura formal.
+
+---
+
+## Fuentes disponibles para este ejercicio
+
+Las variables provienen de varios conjuntos ráster ya preparados para el curso. Para esta práctica nos concentraremos en las **variables cuantitativas**, porque son las apropiadas para correlación y regresión lineal simple.
+
+Entre ellas se incluyen, por ejemplo:
+
+* `CGIAR-ELEVACION.tif`: elevación;
+* `G90-PENDIENTE.tif`: pendiente en grados;
+* `YINSOLTIME_horas_insolacion_topografica.tif`: horas de insolación topográfica;
+* `CHELSA*.tif`: variables bioclimáticas.
+
+Las variables `PROBAV*` y `G90-GEOMORFONOS` existen en el repositorio, pero son cualitativas y no serán el centro del análisis estadístico de esta práctica.
+
+```{r}
 library(tidyverse)
-library(kableExtra)
+library(raster)
 
-archivos <- list.files(path = "data", pattern = "*.tif")
+tipos_var <- data.frame(
+  Fuente = list.files('data', pattern = '*tif', full.names = TRUE)
+) %>% 
+  mutate(Tipo = ifelse(grepl('PROBA|G90-GEOM', Fuente), 'Cualitativa', 'Cuantitativa'))
 
-set.seed(99)
-
-m <- archivos[sample(1:length(archivos), 20)]
-estudiante <- 1:20
-
-df <- data.frame(estudiante, nombre_archivo = m)
-
-df %>% kableExtra::kable()
+tipos_var %>% 
+  knitr::kable()
 ```
 
 ---
 
-## Selección de técnica geomorfométrica
+# Instrucciones generales
 
-Debes elegir **una técnica geomorfométrica** basada en @hengl2009geomorphometry.
+1. **Toda la práctica se realizará en R y se integrará en un manuscrito reproducible.** Ya no se entrega en papel ni como ejercicios sueltos.
 
-Ejemplos de grupos de técnicas:
+2. Debes trabajar dentro de tu repositorio personal del curso. Organiza tu trabajo de forma que otra persona pueda reproducirlo.
 
-### Parámetros básicos del terreno
+3. Elige un número entero entre **101 y 130** y anúncialo en el foro para evitar duplicidad. Ese número será tu semilla de aleatorización y deberá asignarse al objeto `mi_aleatorizacion`. Este ejemplo está basado en la aleatorización 100, pero no debes usar ese número como tu aleatorización.
 
-Capítulo 6.
+```{r, echo=F, include=F, eval=tejer}
+mi_aleatorizacion <- 100
+```
 
-Ejemplos:
+```{r, eval=F}
+mi_aleatorizacion <-  #<-----Atender aquí
+```
 
-* pendiente
-* curvatura
-* índice de rugosidad topográfica
+4. Debes conservar evidencia reproducible de todos los pasos: generación de puntos, selección de variables, extracción de valores, matriz de correlación, gráfico de dispersión y modelo de regresión.
 
-### Parámetros hidrológicos
+5. Los análisis centrales de la práctica deben hacerse en **R**. Puedes usar IA como apoyo conceptual o para depurar código, pero no como sustituto del análisis ni de la redacción consciente.
 
-Capítulo 7.
+6. Tus preguntas, hipótesis y objetivos deben derivarse de los resultados que obtengas, pero deben quedar redactados como si fueran parte de una investigación formal y coherente.
 
-Ejemplos:
+7. Carga estos paquetes como punto de partida:
 
-* acumulación de flujo
-* dirección de drenaje
+```{r}
+library(sf)
+library(raster)
+library(tidyverse)
+library(kableExtra)
+```
 
-### Parámetros topoclimáticos
+---
 
-Capítulo 8.
+# Secuencia analítica obligatoria
 
-Ejemplos:
+## Paso 1. Genera tus 10 puntos aleatorios
 
-* orientación de vertiente
-* distancia a la costa
+Primero genera tus 10 puntos aleatorios dentro del polígono de la República Dominicana.
 
-### Formas del relieve
+```{r}
+rd <- st_read('data/RD_GADM.gpkg', quiet = TRUE)
 
-Capítulo 9.
+{set.seed(mi_aleatorizacion)
+  puntos <- st_as_sf(st_sample(rd, size = 10, type = 'random'))
+  st_geometry(puntos) <- "geometry"}
+```
 
-Ejemplos:
+Genera una tabla de coordenadas para documentar tus puntos.
 
-* geomórfonos
-* detección de depresiones
-* extracción de piedemontes
+```{r}
+puntos %>%
+  mutate(
+    Punto = paste('Punto', 1:nrow(puntos)),
+    Longitud = round(st_coordinates(geometry)[,1], 4),
+    Latitud = round(st_coordinates(geometry)[,2], 4)
+  ) %>%
+  st_drop_geometry() %>%
+  as.data.frame() %>%
+  knitr::kable(align = 'c')
+```
 
-Puedes usar:
+Representa además tus puntos en un mapa simple para incorporarlo al manuscrito o al material suplementario.
 
-* software SIG (QGIS, GRASS GIS),
-* R,
-* Python,
-* o cualquier herramienta que domines.
+```{r}
+plot(rd %>% st_as_sfc())
+plot(puntos, add = TRUE)
+```
 
-Puedes usar **inteligencia artificial como apoyo**, pero no como sustituto del análisis.
+---
+
+## Paso 2. Selecciona tus cinco variables cuantitativas
+
+Se te asignarán cinco variables cuantitativas según tu semilla. Usa este código para generarlas.
+
+```{r}
+{set.seed(mi_aleatorizacion)
+  
+  v_topo <- tipos_var$Fuente[grepl('G90-PE|CGIAR|YINS', tipos_var$Fuente)]
+  
+  v_bio_1_11 <- tipos_var$Fuente[
+    grepl(paste0('CHELSA_bio', 1:11, '_', collapse = '|'), tipos_var$Fuente)
+  ]
+  
+  v_bio_12_19 <- tipos_var$Fuente[
+    grepl(paste0('CHELSA_bio', 12:19, '_', collapse = '|'), tipos_var$Fuente)
+  ]
+  
+  v_bio_todas <- tipos_var$Fuente[
+    grepl(paste0('CHELSA_bio', 1:19, '_', collapse = '|'), tipos_var$Fuente)
+  ]
+  
+  set.seed(mi_aleatorizacion)
+  
+  sel_topo <- sample(v_topo, 2)
+  sel_bio_1_11 <- sample(v_bio_1_11, 1)
+  sel_bio_12_19 <- sample(v_bio_12_19, 1)
+  
+  v_bio_restantes <- setdiff(v_bio_todas, c(sel_bio_1_11, sel_bio_12_19))
+  sel_bio_extra <- sample(v_bio_restantes, 1)
+  
+  fuentes_cuan_sel <- c(
+    sel_topo,
+    sel_bio_1_11,
+    sel_bio_12_19,
+    sel_bio_extra
+  )
+}
+cat('Estos fueron mis archivos seleccionados', fuentes_cuan_sel, sep = '\n')
+```
+
+> Si alguna combinación no produce la distribución esperada entre tipos de variables, puedes ajustar el muestreo manteniendo siempre el criterio de reproducibilidad con semilla y dejando constancia del cambio en materiales y métodos.
+
+---
+
+## Paso 3. Extrae los valores de los rásters en tus puntos
+
+Usando tus 10 puntos, extrae los valores de las cinco variables asignadas.
+
+Con `sapply`:
+
+```{r}
+df_valores_cuan_sel_sapply <- sapply(
+  fuentes_cuan_sel,
+  function(archivo) {
+    r_i <- raster(archivo)
+    raster::extract(x = r_i, y = puntos)
+  }
+) %>%
+  as.data.frame() %>%
+  setNames(gsub('.tif', '', basename(fuentes_cuan_sel)))
+```
+
+Con bucle `for`:
+
+```{r}
+df_resultados <- list()
+for (archivo in fuentes_cuan_sel) {
+  r_a <- raster(archivo)
+  v <- raster::extract(x = r_a, y = puntos)
+  df_resultados[[archivo]] <- v
+}
+
+df_valores_cuan_sel_for <- df_resultados %>%
+  as.data.frame() %>%
+  setNames(gsub('.tif', '', basename(fuentes_cuan_sel)))
+```
+
+Comprueba que ambos procedimientos devuelven el mismo resultado.
+
+```{r}
+all.equal(df_valores_cuan_sel_sapply, df_valores_cuan_sel_for)
+```
+
+Muestra tu tabla de valores extraídos.
+
+```{r}
+df_valores_cuan_sel_for %>%
+  knitr::kable(align = 'c', digits = 2)
+```
+
+### Conversión de variables CHELSA a unidades reales
+
+Las variables CHELSA usan factor de escala y, en algunos casos, *offset*. Corrige sus valores con este bloque.
+
+```{r}
+vars_offset <- paste0('_bio', c(1, 5:6, 8:11), '_')
+
+df_valores_cuan_sel_reales <- df_valores_cuan_sel_sapply %>%
+  mutate(
+    across(matches('bio\\d+'), ~ . * 0.1),
+    across(matches(paste(vars_offset, collapse = '|')), ~ . - 273.15)
+  )
+```
+
+```{r}
+df_valores_cuan_sel_reales %>%
+  knitr::kable(align = 'c', digits = 2)
+```
+
+Esta tabla será una de las bases de tu sección de **resultados**.
+
+---
+
+## Paso 4. Construye e interpreta la matriz de correlación
+
+Construye una matriz de correlación de Pearson con tus cinco variables cuantitativas.
+
+```{r}
+correlacion <- cor(df_valores_cuan_sel_reales)
+correlacion_inferior <- correlacion
+correlacion_inferior[upper.tri(correlacion_inferior, diag = TRUE)] <- NA
+correlacion_inferior <- round(correlacion_inferior, 3)
+correlacion_inferior[is.na(correlacion_inferior)] <- ''
+```
+
+```{r}
+correlacion_inferior %>% knitr::kable()
+```
+
+Identifica el **par de variables con mayor valor absoluto del coeficiente de correlación de Pearson**. Ese par será el núcleo de tu análisis posterior y de tu narración científica.
+
+Puedes ayudarte con este bloque:
+
+```{r}
+cor_mat <- cor(df_valores_cuan_sel_reales)
+cor_abs <- abs(cor_mat)
+cor_abs[upper.tri(cor_abs, diag = TRUE)] <- NA
+idx <- which(cor_abs == max(cor_abs, na.rm = TRUE), arr.ind = TRUE)[1, ]
+var_x_nombre <- colnames(cor_mat)[idx[2]]
+var_y_nombre <- colnames(cor_mat)[idx[1]]
+coef_cor_max <- cor_mat[idx[1], idx[2]]
+
+var_x_nombre
+var_y_nombre
+coef_cor_max
+```
+
+---
+
+## Paso 5. Representa gráficamente el par de variables seleccionado
+
+Construye un gráfico de dispersión del par de variables con mayor correlación absoluta e incorpora la recta ajustada.
+
+```{r}
+var1 <- df_valores_cuan_sel_reales[[var_x_nombre]]
+var2 <- df_valores_cuan_sel_reales[[var_y_nombre]]
+
+plot(var1, var2, xlab = var_x_nombre, ylab = var_y_nombre)
+abline(lm(var2 ~ var1), col = 'red')
+```
+
+Este gráfico debe aparecer en tu manuscrito como una **figura interpretada**, no sólo como salida técnica.
+
+---
+
+## Paso 6. Ajusta un modelo de regresión lineal simple
+
+Usando ese mismo par de variables, construye un modelo de regresión lineal simple. Debes decidir cuál variable funcionará como respuesta y cuál como predictora, y justificar esa decisión.
+
+```{r}
+x <- df_valores_cuan_sel_reales[[var_x_nombre]]
+y <- df_valores_cuan_sel_reales[[var_y_nombre]]
+
+modelo <- lm(y ~ x)
+summary(modelo)
+```
+
+> Puedes probar salidas estilizadas, especialmente para el manuscrito, usando el paquete `gtsummary` o el paquete `xtab`. Igualmente, para representar gráficos de dispersión estilizados, puedes usar paquetes que los muestran incluso con el modelo generado en la forma `y ~ ax + b`.
+
+Extrae e informa al menos:
+
+* intercepto;
+* pendiente;
+* signo de la relación;
+* magnitud aproximada del ajuste;
+* sentido biogeográfico o ambiental de esa relación.
+
+Puedes obtener los coeficientes así:
+
+```{r}
+coef(modelo)
+```
+
+Y puedes añadir una tabla simple con valores observados y ajustados si lo consideras útil.
+
+---
+
+## Paso 7. Convierte el análisis en un manuscrito
+
+Una vez tengas los resultados anteriores, debes convertirlos en un trabajo con lógica científica. DETENTE UN MOMENTO AQUÍ, IMPORTANTE, REITERANDO. No sigas adelante sin haber pensado bien qué historia quieres contar con tus datos. No redactes la introducción ni los métodos sin tener claro qué pregunta vas a responder, qué hipótesis vas a probar y qué objetivos vas a perseguir. En materiales y métodos, y en resultados, usa gráficos y salidas vistosas propias de un manuscrito. Nada de pegar salida de la consola, gráficos básicos de R, o mapas mudos; no, eso no se puede publicar. Debes construir un manuscrito con figuras y tablas apropiadas, y R dispone de las herramientas para hacerlo. No te conformes con lo mínimo, haz un esfuerzo por construir un manuscrito que cumpla con estándares básicos de comunicación científica.
+
+### Qué debes hacer
+
+A partir del patrón observado en tus datos:
+
+* proponer una **pregunta de investigación**;
+* formular una **hipótesis**;
+* redactar **objetivo general** y, si lo deseas, objetivos específicos;
+* construir una narración coherente entre datos, métodos, resultados e interpretación.
+
+Tu pregunta no debe ser inventada al azar ni desconectada del análisis. Debe surgir de la relación observada entre las variables seleccionadas.
+
+Ejemplos del tipo de pregunta que podría surgir:
+
+* ¿Existe una relación lineal entre la elevación y una variable bioclimática en los puntos seleccionados?
+* ¿Qué tan fuerte es la asociación entre dos variables del medio físico en una muestra espacial aleatoria de la República Dominicana?
+* ¿Puede una variable topográfica actuar como predictora simple de una variable climática en los puntos analizados?
+
+No copies estos ejemplos literalmente salvo que realmente coincidan con tu caso. Debes adaptarlos a tus variables concretas.
 
 ---
 
@@ -226,10 +510,10 @@ Extensión sugerida: **3 párrafos**.
 
 Debes:
 
-* explicar qué es la geomorfometría;
-* explicar el parámetro o técnica seleccionada;
-* justificar su importancia;
-* plantear los objetivos del trabajo.
+* explicar qué se entiende por medio físico o variables ambientales en biogeografía;
+* explicar por qué la relación entre variables ambientales puede ser importante para comprender patrones ecológicos o biogeográficos;
+* presentar la pregunta, hipótesis y objetivos de tu trabajo;
+* introducir brevemente las variables concretas que analizarás.
 
 La introducción debe incluir **al menos tres citas bibliográficas**.
 
@@ -237,33 +521,37 @@ La introducción debe incluir **al menos tres citas bibliográficas**.
 
 ## Materiales y métodos
 
-Extensión sugerida: **2 párrafos**.
+Extensión sugerida: **2–3 párrafos**.
 
 Debes describir:
 
-* el DEM SRTM utilizado;
-* las herramientas empleadas (software y hardware);
-* el algoritmo o técnica geomorfométrica aplicada.
+* el área general de estudio (República Dominicana);
+* el procedimiento de generación de puntos aleatorios mediante semilla;
+* las fuentes ráster utilizadas;
+* la extracción de valores en puntos;
+* el análisis de correlación;
+* el ajuste del modelo de regresión lineal simple;
+* el software usado, especialmente R y los paquetes principales.
 
 No adelantes resultados en esta sección.
 
-Si incluyes:
-
-* diagramas metodológicos,
-* esquemas,
-* tablas,
-
-deben referirse mediante **referencias cruzadas**.
+Si incluyes tablas, diagramas o esquemas metodológicos, debes referirte a ellos mediante **referencias cruzadas**.
 
 ---
 
 ## Resultados
 
-Extensión sugerida: **1 párrafo**.
+Extensión sugerida: **1–2 párrafos**, además de tablas y figuras.
 
-Debes presentar el **resultado geomorfométrico obtenido**.
+Debes presentar, como mínimo:
 
-No incluyas interpretaciones extensas; eso corresponde a la discusión.
+* la tabla de variables seleccionadas o la tabla de valores extraídos;
+* la matriz de correlación;
+* el par de variables escogido;
+* el gráfico de dispersión;
+* los coeficientes principales del modelo lineal.
+
+Aquí debes **mostrar** qué obtuviste. La interpretación extensa corresponde sobre todo a la discusión.
 
 ---
 
@@ -273,10 +561,22 @@ Extensión sugerida: **2 párrafos**.
 
 Debes:
 
-* indicar si alcanzaste los objetivos;
-* interpretar el resultado;
-* discutir limitaciones;
-* plantear posibles extensiones futuras.
+* indicar si tus resultados respaldan o no tu hipótesis;
+* interpretar el sentido del coeficiente de correlación y de la pendiente del modelo;
+* discutir la plausibilidad ambiental o biogeográfica del patrón observado;
+* mencionar limitaciones, por ejemplo el tamaño muestral, la naturaleza exploratoria del ejercicio y el hecho de que la selección deriva de una aleatorización.
+
+---
+
+## Conclusiones
+
+Redacta una conclusión breve y directa.
+
+Debe sintetizar:
+
+* qué relación identificaste;
+* qué aprendiste del uso de R para este tipo de análisis;
+* qué limitaciones y posibilidades futuras deja el ejercicio.
 
 ---
 
@@ -284,27 +584,33 @@ Debes:
 
 Todas las referencias citadas deben aparecer en la sección final.
 
-Debes utilizar **formato APA 7** mediante **BibTeX**.
+Debes utilizar **formato APA 7** mediante **BibTeX**. La plantilla, al tejerse, se encarga de adaptar las citas y los estilos a APA 7, por lo que sólo tendrás que ocuparte de buscar fuentes y citarlas adecuadamente.
 
 ---
 
 # Recomendaciones de redacción
 
-Usa una voz (activa o pasiva) de forma consistente.
+Usa una voz activa o pasiva de forma consistente.
 
 Ejemplos:
 
 **Voz activa**
 
-* Analicé los datos utilizando R.
-* Los resultados muestran una relación clara.
+* Analicé los datos ambientales utilizando R.
+* Los resultados muestran una asociación negativa entre las variables.
 
 **Voz pasiva**
 
-* Los datos fueron analizados utilizando R.
-* Se observó una relación significativa.
+* Los datos ambientales fueron analizados utilizando R.
+* Se observó una asociación negativa entre las variables.
 
 Ambas formas son aceptables en redacción científica.
+
+Evita:
+
+* narrar el manuscrito como una lista de comandos;
+* confundir correlación con causalidad;
+* afirmar mecanismos ecológicos complejos que no puedes sostener con este análisis simple.
 
 ---
 
@@ -314,328 +620,111 @@ Está permitido utilizar herramientas de IA.
 
 Sin embargo:
 
-* úsala como **tutor**, no como redactor;
-* verifica todos los conceptos;
+* úsala como **tutor**, no como redactor automático;
+* verifica conceptos, código y referencias;
 * no copies texto sin revisarlo;
-* nunca confíes ciegamente en referencias generadas por IA.
+* no inventes citas bibliográficas;
+* recuerda que el producto final debe reflejar comprensión real de tus análisis.
 
 ---
 
 # Organización del trabajo (3 días)
 
-## Día 1 — Selección y análisis
+## Día 1 — Generación y análisis
 
-* elegir el municipio
-* elegir la técnica geomorfométrica
-* generar el producto principal (mapa o variable)
+Debes completar:
 
-Avanzar:
+* elección y anuncio de tu semilla;
+* generación de puntos;
+* selección de variables;
+* extracción de valores;
+* matriz de correlación;
+* selección del par de variables;
+* ajuste inicial del modelo de regresión.
 
-* figuras
-* tablas
-* materiales y métodos
+Avanzar también en:
+
+* guardado de figuras;
+* tablas de resultados;
+* notas para materiales y métodos.
 
 ---
 
 ## Día 2 — Redacción del manuscrito
 
-Redactar:
+Debes redactar:
 
-* introducción
-* materiales y métodos
-* resultados
-* discusión
-* conclusiones
+* introducción;
+* materiales y métodos;
+* resultados;
+* discusión;
+* conclusiones.
 
-Preparar:
+Además:
 
-* figuras finales
-* tablas finales
+* inserta figuras y tablas finales;
+* revisa citas y referencias;
+* compila el PDF final.
 
 ---
 
 ## Día 3 — Presentación
 
-Completar:
+Debes completar:
 
-* manuscrito final
-* diapositivas
+* manuscrito final;
+* diapositivas;
+* preparación de la defensa oral.
 
-Realizar:
+Realizarás:
 
-* defensa oral en clase.
+* exposición oral en clase.
 
 ---
 
 # Criterios de evaluación del manuscrito
 
-| Criterio                  | Nivel 1                | Nivel 2                   | Nivel 3              | Nivel 4                 |
-| ------------------------- | ---------------------- | ------------------------- | -------------------- | ----------------------- |
-| Análisis geomorfométrico  | Análisis incorrecto    | Análisis básico           | Análisis correcto    | Análisis exhaustivo     |
-| Uso de software           | Uso limitado           | Uso adecuado              | Buen manejo          | Manejo avanzado         |
-| Redacción científica      | Redacción deficiente   | Redacción clara           | Redacción fluida     | Redacción excelente     |
-| Estructura del manuscrito | Estructura incorrecta  | Estructura básica         | Buena organización   | Organización impecable  |
-| Figuras y tablas          | Ausentes o incorrectas | Uso básico                | Buena integración    | Integración excelente   |
-| Citas y referencias       | Incorrectas            | Algunas correctas         | Mayormente correctas | Uso perfecto de APA     |
-| Reproducibilidad          | No reproducible        | Parcialmente reproducible | Bien documentado     | Totalmente reproducible |
+| Criterio                               | Nivel 1                 | Nivel 2            | Nivel 3              | Nivel 4                              |
+| -------------------------------------- | ----------------------- | ------------------ | -------------------- | ------------------------------------ |
+| Análisis espacial y extracción         | Incorrecto o incompleto | Básico             | Correcto             | Correcto y bien documentado          |
+| Correlación y regresión                | Incorrectas             | Aplicación parcial | Aplicación correcta  | Aplicación rigurosa y bien explicada |
+| Uso de R y reproducibilidad            | Muy limitado            | Adecuado           | Buen manejo          | Manejo avanzado y totalmente claro   |
+| Redacción científica                   | Deficiente              | Clara pero simple  | Fluida               | Muy sólida                           |
+| Estructura del manuscrito              | Incorrecta              | Básica             | Bien organizada      | Impecable                            |
+| Figuras y tablas                       | Ausentes o incorrectas  | Uso básico         | Buena integración    | Integración excelente                |
+| Citas y referencias                    | Incorrectas             | Algunas correctas  | Mayormente correctas | Uso correcto y consistente de APA 7  |
+| Coherencia entre datos y argumentación | Débil                   | Parcial            | Coherente            | Muy convincente                      |
 
 ---
 
 # Criterios de evaluación de la presentación oral
 
-| Criterio                     | Nivel 1               | Nivel 2              | Nivel 3                | Nivel 4                       |
-| ---------------------------- | --------------------- | -------------------- | ---------------------- | ----------------------------- |
-| Claridad de la exposición    | Difícil de seguir     | Comprensible         | Clara                  | Muy clara y bien estructurada |
-| Uso de diapositivas          | Diapositivas confusas | Uso básico           | Buen apoyo visual      | Excelente diseño visual       |
-| Explicación del método       | Poco clara            | Parcial              | Correcta               | Muy bien explicada            |
-| Interpretación de resultados | Ausente               | Básica               | Adecuada               | Profunda                      |
-| Manejo del tiempo            | Fuera del tiempo      | Ligeramente fuera    | Ajustado               | Perfectamente ajustado        |
-| Capacidad de defensa         | No responde           | Respuestas limitadas | Responde correctamente | Argumenta con claridad        |
-
-
-
-
-
-
-
-
-<!-- # Objetivos -->
-
-<!-- El objetivo de esta práctica de desarrollo es que demuestres o mejores ... a) tus capacidades de realizar análisis geomorfométricos; b) tus capacidades de usar software de procesamiento de texto en RStudio; c) tus capacidades de redacción. Esto te preparará, a futuro, para el manuscrito.  -->
-
-<!-- Esta práctica tratará **sobre geomorfometría de un área de República Dominicana**, intentando que sea una investigación reproducible y bien redactada. Lo ideal es que presentes un un documento que cumpla con estilos de formato, uso apropiado de figuras, tablas, citas y referencias. -->
-
-<!-- # Mandato -->
-
-<!-- 1. Usando el DEM del Shuttle Radar Topography Mission (SRTM) recortado para un municipio, aplica una técnica geomorfométrica que elegirás (en el siguiente punto te explico más). Los archivos se encuentran en la carpeta [data/](data/). Debes elegir un municipio por su número y anunciarlo en el foro. -->
-
-<!-- ```{r, eval=T, echo=F, warning=F, message=F} -->
-<!-- library(tidyverse) -->
-<!-- library(kableExtra) -->
-<!-- archivos <- list.files(path = 'data', pattern = '*.tif') -->
-<!-- set.seed(99); m <- archivos[sample(1:length(archivos), 20)] -->
-<!-- estudiante <- 1:20 -->
-<!-- df <- data.frame(estudiante, nombre_archivo = m, check.names = F) -->
-<!-- df %>% kableExtra::kable() -->
-<!-- ``` -->
-
-<!-- 2. Elige una técnica geomorfométrica de @hengl2009geomorphometry y aplícasela a tu DEM. Al hacerlo, obtendrás una característica, variable o parámetro del relieve; por ejemplo, si aplicas la técnica "Geomórfonos" obtendrás una clasificación del relieve. Usa todos los apoyos que necesites, desde el software SIG que mejor conozcas (recomiendo QGIS y GRASS GIS), hasta inteligencia artificial (IA). Si usas IA, no le pidas que te resuelva el ejercicio pasándole el mandato tal cual y luego copiando pegando. Más bien, pídele que te explique cómo resolverlo y hazlo por tu cuenta (modo tutor). -->
-
-<!-- Revisa demostraciones y aplicaciones de geomorfometría en @hengl2009geomorphometry. Estos son los grupos de  técnicas que se encuentran en el libro, pero debes leer en el interior del libro para enterarte mejor (puedes elegir otras que no se encuentren en esta lista y que conozcas mejor; sólo consúltalo conmigo antes de tomar la decisión): -->
-
-<!-- - Parámetros básicos de la superficie del terreno (locales y regionales). Capítulo 6 de @hengl2009geomorphometry. Por ejemplo, pendiente, curvatura, índice de rugosidad topográficas, etc. -->
-
-<!-- - Parámetros de la superficie del terreno y objetos hidrológicos. Capítulo 7 de @hengl2009geomorphometry. Por ejemplo, acumulación de flujo, dirección de drenaje. -->
-
-<!-- - Parámetros de la superficie del terreno para topoclimas. Capítulo 8 de @hengl2009geomorphometry. Por ejemplo, orientación de vertiente, distancia a la costa. -->
-
-<!-- - Formas y formas elementales. Capítulo 9 de @hengl2009geomorphometry. Por ejemplo, clasificación del relieve por geomórfonos, extracción de depresiones, extracción de piedemontes. -->
-
-<!-- 3. Redacta un miniensayo, basándote en la plantilla `plantilla.Rmd` que se encuentra en este mismo repositorio. Para hacerlo, deberás aceptar la práctica desde el portal de la asignatura (ve al [portal de la asignatura](https://github.com/geomorfologia-202601)), haz clic en el enlace de la práctica, acepta la asignación y luego clona tu repo en RStudio. Deberás usar estilos de formato (los títulos debidamente escritos), referencias bibliográficas, referencias cruzadas a figuras y tablas (es decir, necesitarás que las figuras y tablas tengan título o "*caption*"). No podrás desarrollar tu redacción usando listas de viñetas ni listas numeradas. Recuerda usar la plantilla mencionada. Distribuye tu texto en las siguientes secciones: -->
-
-<!-- - **Introducción** (tamaño recomendado: 3 párrafos). Desde lo amplio, comienza escribiendo sobre geomorfometría (qué es). A continuación, explica en qué consiste el parámetro que has elegido, su importancia, por qué es necesario calcularlo, para qué se usa. Plantea tu o tus objetivos, que en este caso son bastante sencillos. Cierra con la importancia que reviste obtener el parámetro o rasgo geomorfométrico que has elegido respecto del conjunto de la ciencia. -->
-
-<!--     - Dentro de esta sección, debes incluir al menos tres citas. Los conceptos y afirmaciones ajenas, deben citarse bibliográficamente, y nunca deberás usar cita literal, pues se considera plagio. Las citas bibliográficas que incluyas, deberán respaldarse por sus correspondientes cuyas referencias, que deberán aparecer en la sección final (Referencias). Las citas y la lista de referencias, deberán seguir el estándar APA 7ma edición (APA7), que es el que la propia plantilla tiene configurado por defecto; en principio, no tendrás que ocuparte de todos los detalles de sintaxis del formato APA7, pero no debes confiar ciegamente en lo que hace RMarkdwon. -->
-
-<!-- - **Materiales y métodos** (tamaño recomendado: 2 párrafos). Explica cómo obtuviste los datos que usaste, y documenta en qué consiste la fuente. Arriba te especifiqué que se trata del DEM SRTM, pero debes describirlo y citar fuentes. Debes igualmente citar el software y hardware usado, y las referencias sobre la técnica o algoritmo empleados. Dentro de la redacción, debes incluir al menos dos citas. Si incluyes un diagrama de flujo metodológico ("metodología gráfica"), te resultará más fácil explicar tu metodología. **No adelantes resultados, sólo escribe que fuentes y herramientas usaste (materiales) y qué técnicas concretas o algoritmos utilizaste (métodos)**. Toda figura y tabla que insertes debe citarse con referencia cruzada, que básicamente se construyen con (más instrucciones en el aula, por vídeos o por el foro). Usa un sistema de referencia cruzada asistido por el procesador de texto que uses (pregunta a tu tutor de inteligencia artificial de preferencia cómo insertar títulos a tablas y figuras, y cómo referirlos en el texto; también pregúntale cómo insertar y referir fórmulas). -->
-
-<!-- - **Resultados** (tamaño recomendado: 1 párrafo). El parámetro o variable morfométrica que obtuviste, presentándolo en sus respectivas componentes. No hagas valoraciones en esta sección, simplemente incluye el resultado obtenido. -->
-
-<!-- - **Discusión** (tamaño recomendado: 2 párrafos). Abre la discusión indicando si alcanzaste tus objetivos. Describe por qué era importante alcanzarlos. Comenta sobre las limitaciones, de cualquier tipo, ya sea las limitaciones de los datos, de la técnicas, de los objetivos de aprendizaje. Cierra indicando qué desafíos futuros quedan abiertos tras este trabajo. -->
-
-<!-- - **Referencias**. Las referencias que hayas citado en el texto, se incluirán automáticamente en la sección "Referencias". No obstante, debes verificar la integridad de las mismas. -->
-
-<!-- > **RECUADRO: recomendaciones básicas de redacción** -->
-<!-- >  -->
-<!-- > Usa una voz (activa o pasiva) de forma consistente, pero sólo ten presente que la redacción de manuscritos científicos a menudo se utilizan ambas voces, dependiendo del contexto y el mensaje que el/la autor/a quiera transmitir. Veamos algunos ejemplos: -->
-<!-- >  -->
-<!-- > **Voz activa en manuscrito científicos:** -->
-<!-- >  -->
-<!-- > - **Analicé** los datos utilizando el software R. -->
-<!-- >  -->
-<!-- > - El experimento **mostró** que la temperatura afecta directamente la tasa de reacción. -->
-<!-- >  -->
-<!-- > - Los investigadores **encontraron** una correlación significativa entre las dos variables. -->
-<!-- >  -->
-<!-- > La voz activa puede hacer que la redacción parezca más directa y clara, y es especialmente útil cuando el/la autor/a quiere enfatizar quién llevó a cabo una acción o cuándo se desea hacer una afirmación fuerte. -->
-<!-- >  -->
-<!-- > **Voz pasiva en artículos científicos:** -->
-<!-- >  -->
-<!-- > - Los datos **fueron analizados** utilizando el software R. -->
-<!-- >  -->
-<!-- > - **Se observó** que la temperatura afecta directamente la tasa de reacción. -->
-<!-- >  -->
-<!-- > - Una correlación significativa **fue encontrada** entre las dos variables. -->
-<!-- >  -->
-<!-- > La voz pasiva es común en la redacción científica porque a menudo se prefiere un tono más impersonal, enfocando la atención en los resultados y procedimientos en lugar de en quienes llevaron a cabo la investigación. También puede ser útil cuando no se quiere o no es relevante especificar quién realizó la acción. -->
-<!-- >  -->
-<!-- > **En todas mis prácticas, está completamente permitido usar IA (e.g. chatGPT), pero te recomiendo que la uses más como tutor que como redactor**. Tal como te sugerí arriba, no le pidas que te resuelva los problemas del mandato. Pídele que te dé ideas, y que luego tú las mejores o las descartes. No abuses tampoco del texto, pues mucha redacción no siempre es mejor; en redacción de ensayos "menos es más". Cruza las redacciones que te ofrezca con tu conocimiento, y revisa si los términos o conceptos usados son descabellados (toda IA se inventa cosas, cuidate de no caer en esa trampa). Nunca le pidas referencias bibliográficas, porque se va equivocar. -->
-
-
-<!-- ## Criterios de evaluación y escala de valoración -->
-
-<!-- | Criterio                          | Nivel 1 (En Desarrollo) | Nivel 2 (Aceptable) | Nivel 3 (Bueno) | Nivel 4 (Excelente) | -->
-<!-- |-----------------------------------|-------------------------|---------------------|-----------------|---------------------| -->
-<!-- | **Análisis Geomorfométricos**     | Análisis incompleto o incorrecto de los datos geomorfométricos. | Análisis básico y correcto de los datos geomorfométricos. | Análisis detallado y correcto de los datos geomorfométricos. | Análisis exhaustivo y avanzado de los datos geomorfométricos. | -->
-<!-- | **Uso de Software**               | Uso limitado y con errores del software de procesamiento de texto y SIG. | Uso adecuado del software de procesamiento de texto y SIG. | Buen manejo del software de procesamiento de texto y SIG, con algunas características avanzadas. | Excelente manejo del software de procesamiento de texto y SIG, incluyendo características avanzadas. | -->
-<!-- | **Redacción y Estilo**            | Redacción pobre con numerosos errores gramaticales y de estilo. | Redacción clara con algunos errores gramaticales y de estilo. | Redacción fluida y coherente con pocos errores gramaticales. | Redacción impecable y elegante sin errores gramaticales. | -->
-<!-- | **Formato y Estructura**          | Formato y estructura incorrectos o ausentes. | Formato y estructura básicos y mayormente correctos. | Buen formato y estructura, con adecuada organización del documento. | Excelente formato y estructura, con organización perfecta del documento. | -->
-<!-- | **Uso de Figuras y Tablas**       | Uso inadecuado o ausente de figuras y tablas. | Uso básico y correcto de figuras y tablas. | Uso adecuado de figuras y tablas, con buena integración en el texto. | Uso excelente de figuras y tablas, perfectamente integradas en el texto. | -->
-<!-- | **Citas y Referencias**           | Citas y referencias inadecuadas o incorrectamente formateadas. | Citas y referencias adecuadas con algunos errores de formato. | Citas y referencias bien utilizadas y mayormente en el formato correcto. | Uso ejemplar de citas y referencias, perfectamente formateadas según APA 7ma edición. | -->
-<!-- | **Reproducibilidad del Análisis** | Análisis no reproducible o con instrucciones poco claras. | Análisis mayormente reproducible con algunas instrucciones claras. | Análisis bien documentado y reproducible con instrucciones detalladas. | Análisis perfectamente documentado y totalmente reproducible con instrucciones claras y completas. | -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ¿Qué entregar? -->
-
-<!-- * **Manuscrito**. La entrega del manuscrito se realiza en PDF generado a partir de RMarkdown, y por medio del repositorio personal haciendo (commit + push), siguiendo el flujo usual de la asignatura. Dispones de una plantilla RMarkdown (archivo `plantilla.Rmd`) en el repo, con el cual podrás crear tu PDF, pero puedes usar otras plantillas, siempre que generes tu PDF a partir de un RMarkdown, y siempre que tenga estructura típica de manuscrito (Título, Autor/a + Matrícula, Resumen, Introducción, Materiales y Métodos, Resultados, Discusión, Conclusiones, Referencias, Información Suplementaria). Muchas revistas científicas tienen plantillas RMarkdown a través del paquete rticles; puedes usar alguna de esas plantillas si lo deseas yendo al menú `File > New File > R Markdown... > From Template`. -->
-<!-- * **Diapositivas**. -->
-<!-- * **Defensa oral (en clase)**. -->
-
-<!-- # Introducción -->
-
-<!-- Esta práctica inaugura la asignatura y está diseñada para que el estudiantado construya una base sólida en los **fundamentos conceptuales**, las **bases geológicas/estructurales**, y la noción de **tiempo en geomorfología**, tal como se plantea en la **Unidad 1**. -->
-
-<!-- A diferencia de una práctica de “ejercicios sueltos”, aquí trabajaremos bajo un esquema de **práctica integradora (taller + defensa)**. Tu tarea será: -->
-
-<!-- 1. **Elegir un (1) ejercicio** de los propuestos (de un conjunto de ocho), y -->
-<!-- 2. Convertirlo en un **problema geomorfológico bien formulado** que culmine en dos productos: -->
-
-<!-- * Un **manuscrito científico reproducible**, y -->
-<!-- * Una **presentación oral breve** (diapositivas + defensa). -->
-
-<!-- El punto clave es que, aunque solo desarrolles **un ejercicio**, tu manuscrito debe evidenciar un recorrido por la teoría de la Unidad 1: **conceptos, supuestos, decisiones, evidencia, limitaciones y conclusiones**. -->
-
-<!-- # Qué debes producir (entregables) -->
-
-<!-- ## Entregable 1: Manuscrito reproducible (obligatorio) -->
-
-<!-- Un manuscrito breve en formato académico, construido a partir de la **plantilla del repositorio** o de una plantilla alternativa, con las siguientes secciones mínimas: -->
-
-<!-- * **Título**. -->
-<!-- * **Autor/a + Matrícula**. -->
-<!-- * **Resumen**. -->
-<!-- * **Introducción**. -->
-<!-- * **Marco teórico**. -->
-<!-- * **Metodología** (documental / conceptual). -->
-<!-- * **Resultados** (tablas, figuras, esquemas, mapas conceptuales, o producto cartográfico si aplica). Las figuras y tablas deben referirse en el texto, es decir, deben contar con "referencia cruzada". -->
-<!-- * **Discusión**. -->
-<!-- * **Conclusiones**. -->
-<!-- * **Referencias**. Las referencias deben insertarse automáticamente mediante la bibliografía del repositorio, usando formato BibTeX y colocando las entradas en un archivo .bib. -->
-<!-- * **Información suplementaria (si aplica)**. -->
-
-<!-- > Reiterando información anterior. La entrega del manuscrito se realiza en PDF generado a partir de RMarkdown, y por medio del repositorio personal haciendo (commit + push), siguiendo el flujo usual de la asignatura. Dispones de una plantilla RMarkdown (archivo `plantilla.Rmd`) en el repo, con la cual podrás crear tu PDF, pero puedes usar otras plantillas, siempre que generes tu PDF a partir de un RMarkdown, y siempre que tenga estructura típica de manuscrito (Título, Autor/a + Matrícula, Resumen, Introducción, Materiales y Métodos, Resultados, Discusión, Conclusiones, Referencias, Información Suplementaria). Muchas revistas científicas tienen plantillas RMarkdown a través del paquete rticles; puedes usar alguna de esas plantillas si lo deseas yendo al menú File > New File > R Markdown... > From Template. -->
-
-<!-- **Extensión sugerida**: 4–8 páginas (sin contar referencias). -->
-
-<!-- **Evita las listas de "viñetas" y las listas numeradas en la redacción.** -->
-
-<!-- ## Entregable 2: Presentación oral (obligatorio) -->
-
-<!-- Una exposición breve: -->
-
-<!-- * **17 minutos** por estudiante -->
-<!-- * Recomendado: 10 diapositivas -->
-<!-- * Debe explicar: problema, enfoque, evidencia principal (tabla/figura/mapas), conclusiones y limitaciones. -->
-
-<!-- # Cómo se organiza la práctica (ciclo estándar + entregas parciales) -->
-
-<!-- > Las entregas parciales son cortas y sirven para evitar "hacer todo el último día". -->
-
-<!-- ## Día 1 — Elección + delimitación del problema (entrega parcial 1) -->
-
-<!-- * Elige **un ejercicio** que no haya sido elegido por otra persona. -->
-<!-- * Redacta una **pregunta principal** y 2–3 subpreguntas. -->
-<!-- * Define el **corpus** (manuales, artículos, mapas, etc.), es decir, las fuentes que usarás. -->
-<!-- * Esboza las **tablas/figuras** que usarás. Si aplica, qué variables o elementos incluirás en tu manuscrito. -->
-
-<!-- **Entrega parcial 1 (1 página o menos):** -->
-
-<!-- * Título provisional. -->
-<!-- * Pregunta(s). -->
-<!-- * Corpus (lista de fuentes). -->
-<!-- * Boceto de tablas/figuras/mapas. -->
-
-<!-- ## Día 2 — Lectura + estructura del manuscrito (entrega parcial 2) -->
-
-<!-- * Lee el corpus seleccionado. -->
-<!-- * Escribe un **esquema** del manuscrito (bullets por sección). -->
-<!-- * Redacta el **marco teórico** en borrador. -->
-<!-- * Avanza las tablas/figuras/mapas. Deben referirse en el texto; figuras y tablas deben contar con "referencia cruzada". -->
-
-<!-- **Entrega parcial 2:** -->
-
-<!-- * Esquema (con subtítulos). -->
-<!-- * Primer borrador del marco teórico (mínimo 500–800 palabras). -->
-<!-- * Tablas/figuras/mapas en borrador. Deben referirse en el texto; figuras y tablas deben contar con "referencia cruzada". -->
-
-<!-- ## Día 3 — Resultados + discusión (entrega parcial 3) -->
-
-<!-- * Completa el producto central (tablas/figuras/mapas). -->
-<!-- * Redacta resultados y discusión. -->
-<!-- * Añade conclusiones y limitaciones. -->
-
-<!-- **Entrega parcial 3:** -->
-
-<!-- * Tablas/figuras finales (o mapas, si aplica). Deben referirse en el texto; figuras y tablas deben contar con "referencia cruzada". -->
-<!-- * Resultados + Discusión (borrador avanzado). -->
-
-<!-- ## Día 4 — Entrega final + defensa -->
-
-<!-- * Manuscrito final (PDF exportado desde RMarkdown). -->
-<!-- * Diapositivas. -->
-<!-- * Defensa oral. -->
-
-<!-- # Qué debes elegir (ejercicio) -->
-
-<!-- * Cada estudiante debe elegir **un solo ejercicio**. -->
-<!-- * No se permiten ejercicios repetidos entre personas. -->
-
-<!-- # Cómo usar los ejercicios (reglas del juego) -->
-
-<!-- 1. **No es un resumen de clase.** Es un manuscrito: plantea un problema, muestra evidencia (tablas/figuras, resultados), discute y concluye. -->
-<!-- 2. **Debes usar fuentes académicas.** Como mínimo: -->
-
-<!--    * 2 manuales / capítulos, y -->
-<!--    * 3 artículos científicos (o equivalentes) para sostener tu discusión. -->
-<!-- 3. **Tablas/figuras obligatorias** en todos los ejercicios. Éstas deben referirse en el texto; figuras y tablas deben contar con "referencia cruzada". -->
-<!-- 4. **No inventes contenido.** Toda afirmación importante debe estar sustentada. -->
-<!-- 5. **Usa IA, pero supervisa/controla lo que te dé.** No copies y pegues sin revisar. Verifica todo. -->
-<!-- 6. **Evita lo puramente opinativo.** Argumenta con base en el corpus y en conceptos geomorfológicos. -->
-
-
-
-
-
-
-
-
-
+| Criterio                           | Nivel 1           | Nivel 2              | Nivel 3                | Nivel 4                            |
+| ---------------------------------- | ----------------- | -------------------- | ---------------------- | ---------------------------------- |
+| Claridad de la exposición          | Difícil de seguir | Comprensible         | Clara                  | Muy clara y bien estructurada      |
+| Uso de diapositivas                | Confusas          | Básicas              | Buen apoyo visual      | Excelente diseño visual            |
+| Explicación del método             | Poco clara        | Parcial              | Correcta               | Muy bien explicada                 |
+| Interpretación de resultados       | Ausente o débil   | Básica               | Adecuada               | Profunda y crítica                 |
+| Manejo del tiempo                  | Fuera del tiempo  | Ligeramente fuera    | Ajustado               | Perfectamente ajustado             |
+| Capacidad de defensa               | No responde       | Respuestas limitadas | Responde correctamente | Argumenta con claridad y seguridad |
+| Coherencia entre manuscrito y oral | Baja              | Parcial              | Buena                  | Muy alta                           |
+
+---
+
+# Resumen
+
+En esta práctica debes:
+
+1. trabajar en **R**;
+2. generar **10 puntos aleatorios** con tu semilla;
+3. extraer valores de **5 variables cuantitativas**;
+4. construir una **matriz de correlación**;
+5. elegir el par con **mayor correlación absoluta**;
+6. ajustar una **regresión lineal simple**;
+7. convertir esos resultados en un **manuscrito científico reproducible**;
+8. preparar **diapositivas** y una **presentación oral**.
+
+La práctica no consiste en resolver ejercicios separados, sino en **transformar un análisis ambiental exploratorio en una pieza breve de comunicación científica**.
 
 
 ## Referencias

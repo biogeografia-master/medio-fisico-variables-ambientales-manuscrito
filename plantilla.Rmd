@@ -64,7 +64,7 @@ theme_set(theme_bw())
 
 # Introducción
 
-Esta sección debes incluir las partes básicas que se supone debe contener una introducción. Apóyate en la [Guía para proyecto de investigación](https://biogeografia-master.github.io/proyecto-de-investigacion/guia-para-proyecto-de-investigacion.html) y en el mandato de la práctica. Aquí conviene redactar de forma fluida y apoyarse en referencias bibliográficas desde el inicio. Puedes usar citas indirectas: "La geomorfometría es una herramienta útil para la extracción de conclusiones geomorfológicas [@hengl2009geomorphometry; @anderson2010geomorphology]". También puedes usar citas narrativas, por ejemplo: "@anderson2010geomorphology discuten la importancia del tema en contextos comparables".
+Esta sección debes incluir las partes básicas que se supone debe contener una introducción. Apóyate en la [Guía para proyecto de investigación](https://biogeografia-master.github.io/proyecto-de-investigacion/guia-para-proyecto-de-investigacion.html) y en el mandato de la práctica. Aquí conviene redactar de forma fluida y apoyarse en referencias bibliográficas desde el inicio. Puedes usar citas indirectas: "La ecología numérica es una herramienta útil para la extracción de conclusiones sobre distribución de biodiversidad [@hengl2009geomorphometry; @anderson2010geomorphology]". También puedes usar citas narrativas, por ejemplo: "@anderson2010geomorphology discuten la importancia del tema en contextos comparables".
 
 # Materiales y métodos
 
